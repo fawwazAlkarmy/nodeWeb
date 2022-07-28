@@ -25,9 +25,7 @@ const dialogflowFulfillment = (request, response) => {
             const user_logged_in = res.data.users_logged_in
             const applied_users = res.data.applied_users
             const number_of_applications = res.data.number_of_applications
-            agent.add(`Number of users logged in :${user_logged_in}
-            Number of users applied :${applied_users}
-            Number of applications :${number_of_applications}
+            agent.add(`Number of users logged in  :${user_logged_in} \n Number of users applied :${applied_users} \n Number of applications :${number_of_applications}
             `)
         })
     }
