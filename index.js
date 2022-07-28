@@ -33,15 +33,45 @@ const dialogflowFulfillment = (request, response) => {
     function getCategories() {
         return axios.get(categoriesUrl).then(res => {
              const categories = res.data.map((category)=>{
-                return  `${category.name_en}`
+                const categoryName =   `${category.name_en}`
+                return categoryName
             })
             agent.add(`${categories.join('\n')}`)
         })
     }
 
+    function update(agent) {
+        const response = {
+              messages: [
+                {
+                  payload: {
+                    messages: [
+                      {
+                        speech: 'here are some quick links for your convenience.',
+                        linkmessage: [{
+                          message: 'google',
+                          link: 'www.google.com'
+                        }, {
+                          message: 'yahoo',
+                          link: 'www.yahoo.co.in'
+                        }],
+                        button: [{
+                          buttonname: 'more page'
+                        }]
+                      }
+                    ]
+                  }
+                }
+              ]
+            };
+            agent.add(new Payload(agent.UNSPECIFIED, response, { rawPayload: true, sendAsMessage: true}));
+        }
+   
+
     let intentMap = new Map();
     intentMap.set("Jobs Stats", getStates)
     intentMap.set("Jobs Categories", getCategories)
+    intentMap.set("test", update)
     agent.handleRequest(intentMap)
 
 }
